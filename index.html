@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heat Loss Calculator</title>
+</head>
+<body>
+  <h1>Heat Loss Calculator 2020</h1>  
+
+  <h1>Heat Loss Calculator</h1>
+<p>*Please enter non-comma separated number values.
+<br>
+<span class="red-star">*</span>Indicates a required field.</p>
+<button id="result-bottom" class="unstyled to-bottom"><i class="fa-chevron-down fa"></i>View Results</button>
+<form class="heat-form" name="heatform" action="postenquiry.php" method="post">
+<br>
+
+ 
+    <div class="building-size table-section">
+        <h3>Building Size</h3>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+              <label for="inputEmail4">Length</label>
+              <input type="text" class="form-control" name="length" placeholder="Length" id="length" oninput="calculate()">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputPassword4">Width</label>
+              <input type="text" class="form-control" name="width" placeholder="Width" id="width" oninput="calculate()">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputPassword4">Height</label>
+              <input type="text" class="form-control" name="height" placeholder="Height" id="height" oninput="calculate()">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputPassword4">Volume</label>
+              <input type="text" class="form-control" name="value" placeholder="Volume" id="v-result">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Sq. Footage</label>
+              <input type="text" class="form-control" name="sqfoot" placeholder="Square Footage" id="sf-result">
+            </div>
+        </div>
+     </div>
+   
+     <!-- Temperature Differential Calculator -->
+     <br>
+     <br>
+    <div class="temperature-diff table-section">
+        <h3>Temperature Differential</h3>
+        <div class="form-row">
+             <div class="form-group col-md-4">
+              <label for="inputEmail4">Inside Desired Temp.<span class="red-star">*</span></label>
+              <input type="text" class="form-control" placeholder="Inside Desired Temp." id="inside-temp" oninput="calculate()">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Outside Design Temp.<span class="red-star">*</span></label>
+              <input type="text" class="form-control" placeholder="Outside Design Temp." id="outside-temp" oninput="calculate()">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Delta T</label>
+              <input style="position:relative; top:9px;" type="text" class="form-control" placeholder="Delta T" id="delta-t">
+            </div>
+        </div>
+    </div>
+    <!-- Building Materials heat loss Calculator --> 
+    <div class="building-materials table-section">
+       <h3 style="width:100%; float:left;">Building Materials</h3>
+        <div class="inner-walls">
+    <!--     Wall 1 -->
+            <div class="form-row">
+                <label id="side-label">Wall 1</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta-t" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+      <!--       Wall 2 -->
+           <div class="form-row">
+                <label id="side-label">Wall 2</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-2" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-2" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-2" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+        <!-- Wall 3 -->
+             <div class="form-row">
+                <label id="side-label">Wall 3</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-3" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-3" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-3" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+         <!--    Roof -->
+              <div class="form-row">
+                <label id="side-label">Roof</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-4" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-4" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-4" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+        <!-- Doors -->
+        <div class="form-row">
+                <label id="side-label">Doors</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-5" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-5" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-5" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+        <!-- Windows -->
+         <div class="form-row">
+                <label id="side-label">Windows</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-6" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-6" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-6" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+        <!--  Skylights -->
+        <div class="form-row">
+                <label id="side-label">Skylights</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-7" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-7" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-7" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+        <!--  Slab Edges -->
+        <div class="form-row">
+                <label id="side-label">Slab Edge</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Size</label>
+                  <input type="text" class="form-control building-size" placeholder="Size" id="building-size-8" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">U-factor (1/R)</label>
+                  <input type="text" class="form-control building-u" placeholder="U-factor (1/R)" id="building-u-8" onkeyup="buildingStats()">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Delta T</label>
+                  <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                </div> 
+                <div class="form-group col-md-3">
+                  <label for="inputPassword4">Heat Loss</label>
+                  <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-8" name="heat-loss" onblur="findTotal()">
+                </div> 
+            </div>
+            </div>
+              <!-- Temperature Differential Calculator -->
+            <div class="natural-vent table-section">
+                <div class="form-row">
+                    <h3>Natural Ventilation</h3>
+                     <div class="form-group col-md-2">
+                      <label for="inputEmail4">Air Changes</label>
+                      <input type="text" class="form-control" placeholder="Air Changes" id="air-changes" oninput="buildingSats()">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputPassword4">Building Volume</label>
+                      <input type="text" class="form-control" placeholder="Building Volume" id="building-volume" oninput="buildingStats()">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputPassword4">U-factor</label>
+                      <input type="text" class="form-control" placeholder="U-factor (1/R)" id="u-factor" oninput="buildingStats()">
+                    </div>
+                     <div class="form-group col-md-2">
+                      <label for="inputPassword4">Delta T</label>
+                      <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                    </div> 
+                     <div class="form-group col-md-4">
+                      <label for="inputPassword4">Heat Loss</label>
+                      <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-9" name="heat-loss" onblur="findTotal()">
+                    </div> 
+                </div>
+            </div>
+        <div class="special-considerations" style="text-align:center;">
+            <h2>Special Considerations</h2>
+        </div>
+          <!-- Cold Mass -->
+            <div class="natural-vent table-section">
+                <div class="form-row">
+                    <h3>Cold Mass</h3>
+                     <div class="form-group col-md-2">
+                      <label for="inputEmail4">Weight (lbs.)</label>
+                      <input type="text" class="form-control" placeholder="Weight (lbs.)" id="weight-c" oninput="buildingSats()">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputPassword4">Specific Heat</label>
+                      <input type="text" class="form-control" placeholder="Specific Heat" id="specific-heat" oninput="buildingStats()">
+                    </div>
+                     <div class="form-group col-md-2">
+                      <label for="inputPassword4">Delta T</label>
+                      <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                    </div> 
+                    <div class="form-group col-md-2">
+                      <label for="inputPassword4">Dwell Hours</label>
+                      <input type="text" class="form-control" placeholder="Dwell Hours" id="u-factor-2" oninput="buildingStats()">
+                    </div>
+                     <div class="form-group col-md-4">
+                      <label for="inputPassword4">Heat Loss</label>
+                      <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-10" name="heat-loss" onblur="findTotal()">
+                    </div> 
+                </div>
+            </div>
+          <!-- Mechanical Ventilation (cfm) -->
+            <div class="natural-vent table-section scroll-stop">
+                <div class="form-row">
+                    <h3>Mechanical Ventilation (cfm)</h3>
+                     <div class="form-group col-md-2">
+                      <label for="inputEmail4">Fan Size (cfm)</label>
+                      <input type="text" class="form-control" placeholder="Fan Size (cfm)" id="fan-size" oninput="buildingSats()">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputPassword4">60 (min/hr)</label>
+                      <input type="text" class="form-control" placeholder="60 min/hr" id="min-hr" oninput="buildingStats()">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputPassword4">Specific Heat</label>
+                      <input type="text" class="form-control" placeholder="Specific Heat" id="specific-heat-2" oninput="buildingStats()">
+                     </div>
+                     <div class="form-group col-md-2">
+                      <label for="inputPassword4">Delta T</label>
+                      <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="building-delta" onkeyup="buildingStats()">
+                    </div> 
+                     <div class="form-group col-md-4">
+                      <label for="inputPassword4">Heat Loss</label>
+                      <input type="text" class="form-control" placeholder="Heat Loss" id="heat-loss-11" name="heat-loss" onblur="findTotal()">
+                    </div> 
+                </div>
+            </div>
+        <!-- Total Heat Loss -->
+         <div class="form-actions">
+                <button style="margin-top: 10px; margin-bottom: 30px;" type="button" class="button center" onclick="findTotal()">Calculate Total Heat Loss</button>
+            </div>
+            
+        <div class="total-heat" style="text-align:center;">
+            <h2>Total Heat Loss</h2>
+               <div class="form-group col-md-4" style="text-align:center;">
+                  <input type="text" class="form-control" placeholder="" id="total">
+                </div> 
+            </div>
+            
+           
+        <!-- Estimated Fuel Consuption Formula -->
+        <div class="fuel-consumption table-section">
+                <div class="form-row col-md-12">
+                    <h3>Fuel Consumption</h3>
+                     <div class="form-group col-md-3">
+                      <label for="inputEmail4">Total Heat Loss (H<sub>L</sub>)</label>
+                      <input type="text" class="form-control" placeholder="HL" id="c-heat-loss">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="inputPassword4">Infared Correction (H<sub>IR</sub>)</label>
+                      <input type="text" class="form-control" placeholder="HR" id="infared-c">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="inputPassword4">Number of Degree Days (DD)</label>
+                      <input type="text" class="form-control" placeholder="DD" id="n-dd">
+                     </div>
+                     <div class="form-group col-md-3">
+                      <label for="inputPassword4">Hours in a Day (Use 24)</label>
+                      <input type="text" class="form-control" placeholder="Hours in a Day" id="day-hours">
+                     </div>
+                </div>
+                    <div class="form-row col-md-12">
+                     <div class="form-group col-md-3">
+                      <label for="inputPassword4">Delta T</label>
+                      <input type="text" class="form-control delta-t-calc" placeholder="Delta T" id="delta-t-2">
+                    </div> 
+                     <div class="form-group col-md-3">
+                      <label for="inputPassword4">Standard state efficiency (K)</label>
+                      <input type="text" class="form-control" placeholder="K" id="standard-state" name="">
+                    </div> 
+                    <div class="form-group col-md-3">
+                      <label for="inputPassword4">Heating Value (V)</label>
+                      <input type="text" class="form-control" placeholder="V" id="heating-val" name="">
+                    </div> 
+                    <div class="form-group col-md-3">
+                      <label for="inputPassword4">Correction Factor in Heating</label>
+                      <input type="text" class="form-control" placeholder="CD" id="correction-factor" name="">
+                    </div> 
+                </div>
+                <!-- Total Fuel Consumed -->
+               <div class="form-actions">
+                <button style="margin-top: 10px; margin-bottom: 30px;" type="button" class="button center" onclick="findFuel()">Calculate Estimated Fuel Consumed</button>
+            </div>
+            
+        <div class="total-heat" style="text-align:center;">
+            <h2>Estimated Fuel Consumed</h2>
+               <div class="form-group col-md-4" style="text-align:center;">
+                  <input type="text" class="form-control" placeholder="" id="fuel-result">
+                </div> 
+            </div>
+                
+            </div>
+ 
+ 
+   <script language="JavaScript">
+        /* Forumula for Volume and Square footage */
+     
+		  function calculate () {
+		      var length = document.getElementById('length').value;
+		      var width = document.getElementById('width').value;
+		      var height = document.getElementById('height').value;
+		      var vResult = document.getElementById('v-result');
+		      var sfResult = document.getElementById('sf-result');
+		      var volume = length * width * height;
+		      var SF = length * width;
+		      vResult.value = volume.toLocaleString();
+		      sfResult.value = SF.toLocaleString();
+		 /* Formula Delta T calculation */
+		     var insideTemp = parseFloat(document.getElementById('inside-temp').value);
+		     var outsideTemp = parseFloat(document.getElementById('outside-temp').value);
+		     var deltaT = document.getElementById("delta-t");
+		     var Tresult = insideTemp - outsideTemp || 0;
+		     deltaT.value = parseFloat(Tresult);
+		     console.log("Inside Temp " + insideTemp);
+		     console.log("Outside Temp " + outsideTemp);
+		     console.log("Delta T " + deltaT);
+		     console.log("Tresult " + Tresult);
+		 
+		      
+		  }
+		  /* Building Materials Return the Same Delta T value for every ID*/
+		 
+		  
+		  function buildingStats () {
+		    /* Grab Delta T from what was calulated previously */
+	        var numDelta = parseFloat(document.getElementById('delta-t').value);
+	        console.log(numDelta);
+		     
+		     /* Reprint new delta value for all new columns*/
+		     var buildingDelta = document.getElementsByClassName('form-control delta-t-calc');
+		     for (i=0;i<buildingDelta.length;i++){
+		         buildingDelta[i].value = numDelta;
+		     }
+		     
+		     /*Execute Wall 1 Calulation */
+		     var buildingSize = parseFloat(document.getElementById('building-size').value);
+		     var buildingU = parseFloat(document.getElementById('building-u').value);
+		     var heatLoss = document.getElementById('heat-loss');
+		     var heatResult = buildingSize * buildingU * numDelta || 0 ;
+		     heatLoss.value = Math.round(heatResult).toLocaleString(); 
+		     heatNum = parseFloat(heatResult);
+		     console.log(heatNum);
+		    
+		     /*Excute Wall 2 Calculation */
+		     var buildingSize2 = parseFloat(document.getElementById('building-size-2').value);
+		     var buildingU2 = parseFloat(document.getElementById('building-u-2').value);
+             var heatLoss2 = document.getElementById('heat-loss-2');
+             var heatResult2 = buildingSize2 * buildingU2 * numDelta || 0;
+             heatLoss2.value = Math.round(heatResult2).toLocaleString(); 
+             heatNum2 = parseFloat(heatResult2);
+		     /*Execute Wall 3 Calculation */
+		     var buildingSize3 = parseFloat(document.getElementById('building-size-3').value);
+		     var buildingU3 = parseFloat(document.getElementById('building-u-3').value);
+             var heatLoss3 = document.getElementById('heat-loss-3');
+             var heatResult3 = buildingSize3 * buildingU3 * numDelta || 0;
+             heatLoss3.value = Math.round(heatResult3).toLocaleString();
+             heatNum3 = parseFloat(heatResult3);
+		     /*Execute Wall 4 Calculation */
+		     var buildingSize4 = parseFloat(document.getElementById('building-size-4').value);
+		     var buildingU4 = parseFloat(document.getElementById('building-u-4').value);
+             var heatLoss4 = document.getElementById('heat-loss-4');
+             var heatResult4 = buildingSize4 * buildingU4 * numDelta || 0;
+             heatLoss4.value = Math.round(heatResult4).toLocaleString();
+             heatNum4 = parseFloat(heatResult4);
+		    /*Execute Wall 5 Calculation */
+		     var buildingSize5 = parseFloat(document.getElementById('building-size-5').value);
+		     var buildingU5 = parseFloat(document.getElementById('building-u-5').value);
+             var heatLoss5 = document.getElementById('heat-loss-5');
+             var heatResult5 = buildingSize5 * buildingU5 * numDelta || 0;
+             heatLoss5.value = Math.round(heatResult5).toLocaleString();
+             heatNum5 = parseFloat(heatResult5);
+             /*Execute Wall 6 Calculation */
+             var buildingSize6 = parseFloat(document.getElementById('building-size-6').value);
+		     var buildingU6 = parseFloat(document.getElementById('building-u-6').value);
+             var heatLoss6 = document.getElementById('heat-loss-6');
+             var heatResult6 = buildingSize6 * buildingU6 * numDelta || 0;
+             heatLoss6.value = Math.round(heatResult6).toLocaleString(); 
+             heatNum6 = parseFloat(heatResult6);
+             /*Execute Wall 6 Calculation */
+             var buildingSize7 = parseFloat(document.getElementById('building-size-7').value);
+		     var buildingU7 = parseFloat(document.getElementById('building-u-7').value);
+             var heatLoss7 = document.getElementById('heat-loss-7');
+             var heatResult7 = buildingSize7 * buildingU7 * numDelta || 0;
+             heatLoss7.value = Math.round(heatResult7).toLocaleString(); 
+             heatNum7 = parseFloat(heatResult7);
+             /*Execute Wall 6 Calculation */
+             var buildingSize8 = parseFloat(document.getElementById('building-size-8').value);
+		     var buildingU8 = parseFloat(document.getElementById('building-u-8').value);
+             var heatLoss8 = document.getElementById('heat-loss-8');
+             var heatResult8 = buildingSize8 * buildingU8 * numDelta || 0;
+             heatLoss8.value = Math.round(heatResult8).toLocaleString();
+             heatNum8 = parseFloat(heatResult8);
+              /* Natural Ventilation */
+		      var airChanges = parseFloat(document.getElementById('air-changes').value);
+		      var buildingVol = parseFloat(document.getElementById('building-volume').value);
+		      var uFactor = parseFloat(document.getElementById('u-factor').value);
+		      var heatLoss9 = document.getElementById('heat-loss-9');
+		      var heatResult9 = airChanges * buildingVol * uFactor * numDelta || 0;
+		      heatLoss9.value = Math.round(heatResult9).toLocaleString();
+		      heatNum9 = parseFloat(heatResult9);
+		      /* Cold Mass */
+		      var weightC = parseFloat(document.getElementById('weight-c').value);
+		      var specificHeat = parseFloat(document.getElementById('specific-heat').value);
+		      var uFactor2 = parseFloat(document.getElementById('u-factor-2').value);
+		      heatResult10 = weightC * specificHeat * numDelta;
+		      finalResult10 = ((heatResult10) / (uFactor2)) || 0;
+		      var heatLoss10 = document.getElementById('heat-loss-10');
+		      heatLoss10.value = Math.round(finalResult10).toLocaleString();
+		      heatNum10 = parseFloat(finalResult10);
+		      /*Mechanical Ventilation (cfm)*/
+		      var fanSize = parseFloat(document.getElementById('fan-size').value);
+		      var minHr = parseFloat(document.getElementById('min-hr').value);
+		      var specificHeat2 = parseFloat(document.getElementById('specific-heat-2').value);
+		      heatResult11 = fanSize * minHr * specificHeat2 * numDelta || 0;
+		      var heatLoss11 = document.getElementById('heat-loss-11');
+		      heatLoss11.value = Math.round(heatResult11).toLocaleString(); 
+		      heatNum11 = parseFloat(heatResult11); 
+		      
+		       
+		   }
+		   /*Total Heat Loss */
+		   
+	       function findTotal() {
+	            totalResult = parseFloat(heatNum + heatNum2 + heatNum3 + heatNum4 + heatNum5 + heatNum6 + heatNum7 + heatNum8 + heatNum9 + finalResult10 + heatResult11);
+	            console.log("Total Result " + totalResult);
+	            var totalLoss = document.getElementById('total');
+	            totalLoss.value = Math.round(totalResult).toLocaleString();
+               /* var arr = document.getElementsByName('heat-loss');
+                var tot=0;
+                for(var i=0;i<arr.length;i++){
+                    if(parseInt(arr[i].value))
+                        tot += parseInt(arr[i].value);
+                }
+                document.getElementById('total').value = tot;*/
+            }
+            
+             /* Find Fuel */
+                function findFuel() {
+                  var cHeatLoss = parseFloat(document.getElementById('c-heat-loss').value);
+    		      var infaredC = parseFloat(document.getElementById('infared-c').value);
+    		      var nDD = parseFloat(document.getElementById('n-dd').value);
+    		      var dayHours = parseFloat(document.getElementById('day-hours').value);
+    		      var standardState = parseFloat(document.getElementById('standard-state').value);
+    		      var heatingVal = parseFloat(document.getElementById('heating-val').value);
+    		      var correctionFactor = parseFloat(document.getElementById('correction-factor').value);
+    		      var numDelta2 = parseFloat(document.getElementById('delta-t-2').value);
+    		      
+    		      topRow = cHeatLoss * infaredC * nDD * dayHours;
+    		      console.log("Top Row " + topRow);
+    		      bottomRow = numDelta2 * standardState * heatingVal;
+    		      console.log("Bottom Row " + bottomRow);
+    		      fuelCalc = (topRow/bottomRow) * correctionFactor;
+    		      console.log('Fuel Calc ' + fuelCalc);
+    		      var fuelResult = document.getElementById('fuel-result');
+    		      fuelResult.value = Math.round(fuelCalc).toLocaleString();
+                }
+          
+            
+            
+   </script>
+
+	</div></form>
+</div>
+</body>
+</html>
